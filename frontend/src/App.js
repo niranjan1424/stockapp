@@ -83,7 +83,7 @@ function StockDashboard() {
   const [menuOpen, setMenuOpen] = useState({ analysis: false, portfolio: false, settings: false });
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("analysis");
-  const [chartType, setChartType] = useState("line"); // Added missing state
+  const [chartType] = useState("line");
 
   const handleAnalyze = useCallback(async () => {
     if (!ticker || !/^[A-Z]{1,5}$/.test(ticker)) {
