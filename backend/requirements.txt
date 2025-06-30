@@ -1,5 +1,6 @@
 fastapi
 uvicorn
+scikit-learn
 
 appdirs==1.4.4
 beautifulsoup4==4.13.4
