@@ -1,6 +1,7 @@
 fastapi
 uvicorn
 scikit-learn
+vaderSentiment
 
 appdirs==1.4.4
 beautifulsoup4==4.13.4
