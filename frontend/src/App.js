@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
   LineChart,
@@ -78,14 +78,14 @@ function StockDashboard() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [chartType, setChartType] = useState("line");
   const [lineThickness, setLineThickness] = useState(2);
   const [showGrid, setShowGrid] = useState(true);
   const [menuOpen, setMenuOpen] = useState({ analysis: false, portfolio: false, settings: false });
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("analysis");
+  const [chartType, setChartType] = useState("line"); // Added missing state
 
-  const handleAnalyze = async () => {
+  const handleAnalyze = useCallback(async () => {
     if (!ticker || !/^[A-Z]{1,5}$/.test(ticker)) {
       alert("Please enter a valid stock ticker (e.g., AAPL).");
       return;
@@ -109,13 +109,13 @@ function StockDashboard() {
 
       setData(result.data);
 
-      const today = new Date("2025-06-30T05:37:00Z").toISOString().split("T")[0]; // 11:07 AM IST (UTC+5:30)
+      const today = new Date("2025-06-30T05:37:00Z").toISOString().split("T")[0];
       const latestData = result.data.find(
         (d) => new Date(d.Date).toISOString().split("T")[0] === today
       ) || result.data[result.data.length - 1];
       setCurrentPrice(latestData.Close);
 
-      if (alertPrice && currentPrice >= alertPrice) {
+      if (alertPrice && latestData.Close >= alertPrice) {
         setAlertTriggered(true);
         setTimeout(() => setAlertTriggered(false), 5000);
       }
@@ -147,7 +147,7 @@ function StockDashboard() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [ticker, alertPrice]);
 
   const handleTickerChange = (e) => {
     const value = e.target.value.toUpperCase();
@@ -185,12 +185,12 @@ function StockDashboard() {
       if (ticker) handleAnalyze();
     }, 30000);
     return () => clearInterval(interval);
-  }, [ticker, alertPrice]);
+  }, [ticker, alertPrice, handleAnalyze]);
 
   const getChartData = () => {
     if (!data || data.length === 0) {
       if (timeRange === "1D") {
-        const today = new Date("2025-06-30T05:37:00Z"); // 11:07 AM IST
+        const today = new Date("2025-06-30T05:37:00Z");
         return [
           {
             Date: today.toLocaleDateString("en-US", {
