@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { Zap} from "lucide-react";
 import {
   LineChart,
   Line,
