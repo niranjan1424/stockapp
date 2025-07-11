@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { Zap} from "lucide-react";
 import {
   LineChart,
   Line,
@@ -341,7 +342,7 @@ function StockDashboard() {
             <AnimatedCard gradient="from-indigo-500 to-purple-500" className="h-96">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                  <Flame className="w-6 h-6" />
+                  <Zap className="w-6 h-6" />
                   {ticker} Price Movement
                 </h2>
                 <div className="px-4 py-2 rounded-xl bg-green-400/30 text-green-100 text-sm font-semibold">
